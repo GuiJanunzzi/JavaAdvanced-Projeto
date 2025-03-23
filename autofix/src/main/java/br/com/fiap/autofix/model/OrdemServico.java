@@ -19,16 +19,42 @@ public class OrdemServico {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getDescricao() {
         return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public double getValorTotal() {
         return valorTotal;
     }
 
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     public Status getStatus() {
         return status;
-    }    
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + id + 
+        ", Descricao: " + descricao + 
+        ", Valor Total: " + valorTotal + 
+        ", Status: " + status;
+    }
+
+    
 
 }
