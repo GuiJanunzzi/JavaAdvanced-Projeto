@@ -11,7 +11,7 @@ export async function getOrdemServico(): Promise<OrdemServico[]>{
 
 export async function postOrdemServico(initialState: any, formData: FormData){
     const dados = {
-        descricacao: formData.get("descricao"),
+        descricao: formData.get("descricao"),
         valorTotal: formData.get("valorTotal"),
         status: formData.get("status")
     }
@@ -24,7 +24,7 @@ export async function postOrdemServico(initialState: any, formData: FormData){
         body: JSON.stringify(dados)
     }
 
-    fetch(API_URL, options)
+     await fetch(API_URL, options)
 
     redirect("/ordem-servico")
 }

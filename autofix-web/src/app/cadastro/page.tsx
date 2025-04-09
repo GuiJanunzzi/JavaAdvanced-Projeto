@@ -10,13 +10,13 @@ export default function page() {
         <Cabecalho ativo="cadastrar"/>
         <main className='flex justify-center'>
             <div className='flex flex-col items-center justify-center bg-gray-400 p-6 m-6 rounded min-w-2/3'>
-                <h2 className='font-bold text-center text-4xl'>Cadastrar</h2>
+                <h2 className='font-bold text-center text-4xl'>Cadastro</h2>
                 <div className='flex justify-between gap-7 m-10'>
                   <div className='flex flex-col items-center'>
                     <User />
                     <Button asChild>
                       <Link href={"/cadastro/cliente"}>
-                        Cadastrar
+                      Registrar
                       </Link>
                     </Button>
                   </div>
