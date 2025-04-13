@@ -38,6 +38,6 @@ public class OrdemServico {
 
     @NotNull(message = "Campo obrigatório!")
     @Enumerated(EnumType.STRING)
-    @Schema(description = "Status atual da ordem de serviço", example = "PENDENTE")
+    @Schema(description = "Status atual da ordem de serviço", example = "Pendente")
     private Status status; //Status: Pendente, Em_Andamento, Concluido   
 }
