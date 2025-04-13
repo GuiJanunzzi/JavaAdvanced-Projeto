@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.autofix.model.OrdemServico;
 import br.com.fiap.autofix.repository.OrdemServicoRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -39,7 +40,7 @@ public class OrdemServicoController {
     }
 
     @PostMapping
-    public ResponseEntity<OrdemServico> create(@RequestBody OrdemServico ordemServico){
+    public ResponseEntity<OrdemServico> create(@RequestBody @Valid OrdemServico ordemServico){
         log.info("Cadastrando Ordem de Serviço");
         repository.save(ordemServico);
         return ResponseEntity.status(210).body(ordemServico);
@@ -51,8 +52,8 @@ public class OrdemServicoController {
         return getOrdemServico(id);
     }
 
-    @PutMapping
-    public OrdemServico update(@PathVariable Long id, @RequestBody OrdemServico ordemServico){
+    @PutMapping({"/{id}"})
+    public OrdemServico update(@PathVariable Long id, @RequestBody @Valid OrdemServico ordemServico){
         log.info("Atualizando ordem de serviço "+ordemServico.toString());
 
         getOrdemServico(id);

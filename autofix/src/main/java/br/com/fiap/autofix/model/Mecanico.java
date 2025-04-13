@@ -1,7 +1,5 @@
 package br.com.fiap.autofix.model;
 
-import java.util.Random;
-
 public class Mecanico {
     private Long id;
     private String nome;
