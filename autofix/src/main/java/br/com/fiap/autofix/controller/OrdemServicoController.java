@@ -23,8 +23,12 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.autofix.model.OrdemServico;
 import br.com.fiap.autofix.repository.OrdemServicoRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+@Tag(name = "Ordem de Serviço", description = "Operações relacionadas às Ordens de Serviço")
 @RestController
 @CrossOrigin
 @RequestMapping("/ordem-servico")
@@ -35,7 +39,15 @@ public class OrdemServicoController {
     @Autowired
     private OrdemServicoRepository repository;
 
-    //
+    //----- Documentação Swagger -----
+    @Operation(
+        summary = "Listar todas as Ordens de Serviço",
+        description = "Retorna uma lista com todas as ordens de serviço cadastradas no sistema",
+        responses = {
+                @ApiResponse(responseCode = "200", description = "Lista de ordens de serviço retornada com sucesso")
+        }
+    )
+    //----- Documentação Swagger -----
     @GetMapping
     @Cacheable("ordemServico")
     public List<OrdemServico> index(){
@@ -43,6 +55,16 @@ public class OrdemServicoController {
     }
 
     @CacheEvict(value = "ordemServico", allEntries = true)
+    //----- Documentação Swagger -----
+    @Operation(
+        summary = "Cadastrar Ordem de Serviço",
+        description = "Coleta os dados de Descrição, Valor Total e Status(Pendente, Em_Andamento, Concluido) para adicionar uma ordem de serviço no sistema",
+        responses = {
+                @ApiResponse(responseCode = "201", description = "Ordem de serviço criada com sucesso"),
+                @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos")
+        }
+    )
+    //----- Documentação Swagger -----
     @PostMapping
     public ResponseEntity<OrdemServico> create(@RequestBody @Valid OrdemServico ordemServico){
         log.info("Cadastrando Ordem de Serviço");
@@ -50,13 +72,33 @@ public class OrdemServicoController {
         return ResponseEntity.status(210).body(ordemServico);
     }
 
+    //----- Documentação Swagger -----
+    @Operation(
+        summary = "Buscar Ordem de Serviço por ID",
+        description = "Retorna os dados de uma ordem de serviço com base no ID fornecido",
+        responses = {
+                @ApiResponse(responseCode = "200", description = "Ordem de serviço encontrada"),
+                @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada")
+        }
+    )
+    //----- Documentação Swagger -----
     @GetMapping({"/{id}"})
     public OrdemServico get(@PathVariable Long id){
         log.info("Buscando ordem de serviço ID: " + id);
         return getOrdemServico(id);
     }
 
-    
+    //----- Documentação Swagger -----
+    @Operation(
+        summary = "Atualizar Ordem de Serviço",
+        description = "Atualiza os dados de uma ordem de serviço existente com base no ID fornecido",
+        responses = {
+                @ApiResponse(responseCode = "200", description = "Ordem de serviço atualizada com sucesso"),
+                @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+                @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada")
+        }
+    )
+    //----- Documentação Swagger -----
     @PutMapping({"/{id}"})
     public OrdemServico update(@PathVariable Long id, @RequestBody @Valid OrdemServico ordemServico){
         log.info("Atualizando ordem de serviço "+ordemServico.toString());
@@ -68,7 +110,17 @@ public class OrdemServicoController {
         return ordemServico;
     }
 
-    @DeleteMapping({"/ordem-servico/{id}"})
+    //----- Documentação Swagger -----
+    @Operation(
+        summary = "Deletar Ordem de Serviço",
+        description = "Remove uma ordem de serviço existente com base no ID fornecido",
+        responses = {
+                @ApiResponse(responseCode = "204", description = "Ordem de serviço removida com sucesso"),
+                @ApiResponse(responseCode = "404", description = "Ordem de serviço não encontrada")
+        }
+    )
+    //----- Documentação Swagger -----
+    @DeleteMapping({"/{id}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
         log.info("Apagando Ordem de Serviço ID: " + id);
