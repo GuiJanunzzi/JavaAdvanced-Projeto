@@ -99,6 +99,7 @@ public class OrdemServicoController {
         }
     )
     //----- Documentação Swagger -----
+    @CacheEvict(value = "ordemServico", allEntries = true)
     @PutMapping({"/{id}"})
     public OrdemServico update(@PathVariable Long id, @RequestBody @Valid OrdemServico ordemServico){
         log.info("Atualizando ordem de serviço "+ordemServico.toString());
@@ -120,6 +121,7 @@ public class OrdemServicoController {
         }
     )
     //----- Documentação Swagger -----
+    @CacheEvict(value = "ordemServico", allEntries = true)
     @DeleteMapping({"/{id}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id){
