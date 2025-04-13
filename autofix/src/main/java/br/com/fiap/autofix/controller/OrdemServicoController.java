@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,10 +37,12 @@ public class OrdemServicoController {
 
     //
     @GetMapping
+    @Cacheable("ordemServico")
     public List<OrdemServico> index(){
         return repository.findAll();
     }
 
+    @CacheEvict(value = "ordemServico", allEntries = true)
     @PostMapping
     public ResponseEntity<OrdemServico> create(@RequestBody @Valid OrdemServico ordemServico){
         log.info("Cadastrando Ordem de Serviço");
@@ -52,6 +56,7 @@ public class OrdemServicoController {
         return getOrdemServico(id);
     }
 
+    
     @PutMapping({"/{id}"})
     public OrdemServico update(@PathVariable Long id, @RequestBody @Valid OrdemServico ordemServico){
         log.info("Atualizando ordem de serviço "+ordemServico.toString());
