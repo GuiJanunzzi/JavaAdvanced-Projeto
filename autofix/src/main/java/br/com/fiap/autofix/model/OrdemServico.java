@@ -10,10 +10,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity//Transforma a classe em uma tabela de banco de dados
 @Data//Gerar dados com Lombok
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrdemServico {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
