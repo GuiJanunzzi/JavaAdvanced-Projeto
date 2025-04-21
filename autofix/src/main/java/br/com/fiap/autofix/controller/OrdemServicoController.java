@@ -7,6 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.autofix.model.OrdemServico;
+import br.com.fiap.autofix.model.OrdemServicoFilter;
 import br.com.fiap.autofix.repository.OrdemServicoRepository;
+import br.com.fiap.autofix.specification.OrdemServicoSpecification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,8 +56,10 @@ public class OrdemServicoController {
     //----- Documentação Swagger -----
     @GetMapping
     @Cacheable("ordemServico")
-    public List<OrdemServico> index(){
-        return repository.findAll();
+    public Page<OrdemServico> index(OrdemServicoFilter filter, @PageableDefault(size = 5, sort = "valorTotal", direction = Direction.DESC) Pageable pageable){
+
+        var specification = OrdemServicoSpecification.withFilter(filter);
+        return repository.findAll(specification, pageable);
     }
 
     @CacheEvict(value = "ordemServico", allEntries = true)
