@@ -4,10 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.fiap.autofix.model.OrdemServico;
 import br.com.fiap.autofix.model.Status;
+import br.com.fiap.autofix.model.Usuario;
+import br.com.fiap.autofix.model.UsuarioRole;
 import br.com.fiap.autofix.repository.OrdemServicoRepository;
+import br.com.fiap.autofix.repository.UsuarioRepository;
 import jakarta.annotation.PostConstruct;
 
 @Configuration
@@ -15,6 +19,16 @@ public class DatabaseSeeder {
     
     @Autowired
     OrdemServicoRepository ordemServicoRepository;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    DatabaseSeeder(UsuarioRepository usuarioRepository){
+        this.usuarioRepository = usuarioRepository;
+    }
 
     @PostConstruct
     public void init(){
@@ -111,5 +125,18 @@ public class DatabaseSeeder {
         );
 
         ordemServicoRepository.saveAll(ordemServicos);
+
+        usuarioRepository.saveAll(List.of(
+                Usuario.builder()
+                            .email("janunzzi26@gmail.com")
+                            .password(passwordEncoder.encode("12345"))
+                            .role(UsuarioRole.ADMIN)
+                            .build(),
+                Usuario.builder()
+                            .email("pedro@gmail.com")
+                            .password(passwordEncoder.encode("12345"))
+                            .role(UsuarioRole.USER)
+                            .build()
+        ));
     }
 }
